@@ -1,6 +1,6 @@
 import fs from "fs"
 
-class Product {
+class ManagerProduct {
     constructor (){
         this.products = [];
         this.file = "products.json"
@@ -67,4 +67,4 @@ class Product {
     }
 }
 
-export default Product ;
+export default ManagerProduct ;
