@@ -1,70 +1,46 @@
-import fs from "fs"
+import { productModel } from "../models/products.models.js";
 
 class ManagerProduct {
-    constructor (){
-        this.products = [];
-        this.file = "products.json"
-        this.createFile();
-    }
+    async getProducts(limit, page, query, sort) {
+        try {
+            limit = limit ? limit : 10;
+            page = page >= 1 ? page : 1;
+            query = query ? query : "";
+            sort = sort === "desc" ? { price: -1 } : { price: 1 };
+            
+            let result;    
 
-    createFile(){
-        if(!fs.existsSync(this.file)){
-            fs.writeFileSync(this.file , JSON.stringify(this.products))
+            if (query) {            
+                result = await productModel.paginate({category:query}, {limit:limit, page:page, sort:sort, lean:true});
+            } else {                
+                result = await productModel.paginate({}, {limit:limit, page:page, sort:sort, lean:true});
+            }
+
+            result = {status:"success", payload:result.docs, totalPages:result.totalPages, prevPage:result.prevPage, nextPage:result.nextPage, page:result.page, hasPrevPage:result.hasPrevPage, hasNextPage:result.hasNextPage, prevLink:(result.hasPrevPage ? "/?limit=" + limit + "&page=" + (result.page-1) : null), nextLink:(result.hasNextPage ? "/?limit=" + limit + "&page=" + (result.page+1) : null)};
+    
+            return result;
+        } catch (error) {
+            return {status:"error", payload:""}
         }
     }
-
-    getProducts(){
-        this.products = JSON.parse(fs.readFileSync(this.file , "utf-8"))
-    return this.products;
-    }
-
-    getProductsById(id){
-        this.getProducts();
-        let product = this.products.find(item => item.id == id);
-        return product ? product :{"error":"Producto no encontrado"};
-    }
-
-    getId(){
-        this.getProducts();
-        let max = 0;
+    async getProductById(id) {        
+        let product = await productModel.find({_id:id});
         
-        this.products.forEach(item =>{
-            if(item.id >max){
-                max = item.id;
-            }
-        })
-        return max + 1;
+        return product ? product : {"error":"No se encontró el Producto!"};
     }
 
-    addProducts(product){
-        this.getProducts()
-        let newProduct = {id:this.getId(), ...product};
-        this.products.push(newProduct);
-        this.saveProducts();
+    async addProduct(product) {
+        await productModel.create({...product});
     }
 
-    saveProducts(){
-    fs.writeFileSync(this.file ,JSON.stringify(this.products));
+    async editProduct(id, product) {
+        await productModel.updateOne({_id:id}, {...product});
     }
 
-    editProducts(id , product){
-        this.getProducts()
-        let actualProduct = this.products.find(item => item.id ==id);
-        actualProduct.title = product.title;
-        actualProduct.description = product.description;
-        actualProduct.code = product.code;
-        actualProduct.price = product.price;
-        actualProduct.status = product.status;
-        actualProduct.category = product.categoty;
-        actualProduct.thumbnails = product.thumbnails;
-        this.saveProducts(); 
-    }
-
-    deleteProducts(id){
-        this.getProducts()
-        this.products = this.products.filter(item => item.id !=id);
-        this.saveProducts(); 
+    async deleteProduct(id) {
+        await productModel.deleteOne({_id:id});
     }
 }
 
-export default ManagerProduct ;
+
+export default ManagerProduct 

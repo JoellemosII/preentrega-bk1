@@ -4,18 +4,22 @@ import Product from "../Manager/productsM.js";
 const productsRouter = Router();
 const managerP = new Product();
 
-productsRouter.get("/" , (req, res) =>{
-    let products = managerP.getProducts();
-    res.send(products)
+productsRouter.get("/" ,async (req, res) =>{
+    try{
+        let products = await managerP.getProducts();
+        res.send(products);
+    }catch(error){
+        console.log("Error al obtener los productos")
+    }
 })
 
-productsRouter.get("/:pid" , (req, res) =>{
+productsRouter.get("/:pid" ,async  (req, res) =>{
     let pid = req.params.pid;
-    let product = managerP.getProductsById(pid);
-    res.send(product)
+    let product = await managerP.getProductById(pid);
+    res.send(product);
 })
 
-productsRouter.post("/" , (req,res) => {
+productsRouter.post("/" , async (req,res) => {
     const {title , description , code ,price ,status ,category ,thumbnails} = req.body;
 
     if(!title){
@@ -49,11 +53,11 @@ productsRouter.post("/" , (req,res) => {
     }
 
     let product = {title , description , code ,price ,status ,category ,thumbnails};
-    managerP.addProducts(product);
+    await managerP.addProduct(product);
     res.send({"estado": "OK", "mensaje": " Producto agregado exitosamente"});
 })
 
-productsRouter.put("/:pid" , (req,res) => {
+productsRouter.put("/:pid" , async (req,res) => {
     const pid = req.params.pid;
     const {title , description , code ,price ,status ,category ,thumbnails} = req.body;
 
@@ -88,14 +92,14 @@ productsRouter.put("/:pid" , (req,res) => {
     }
 
     let product = {title , description , code ,price ,status ,category ,thumbnails};
-    managerP.editProducts(pid,product);
+    await managerP.editProduct(pid,product);
     res.send({"estado": "OK", "mensaje": " Producto actualizado exitosamente"});
 })
 
-productsRouter.delete("/:pid" , (req,res) =>{
+productsRouter.delete("/:pid" , async (req,res) =>{
     const pid = req.params.pid;
-    managerP.deleteProducts(pid);
+    await managerP.deleteProduct(pid);
     res.send({"estado":"OK" , "mensaje" :"Producto eliminado exitosamente"})
 })
 
-export  default productsRouter ;
+export default productsRouter 
