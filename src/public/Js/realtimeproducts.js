@@ -20,12 +20,12 @@ socket.on("realtimeproducts", data =>{
 })
 
 const addProducto = () =>{
-    const title = document.getElementById("title").value;
-    const description = document.getElementById("description").value;
-    const code = document.getElementById("code").value;
-    const price = document.getElementById("price").value;
-    const category = document.getElementById("category").value;
-    const thumbnails = document.getElementById("thumbnails").value;
+    const title = document.getElementById("title");
+    const description = document.getElementById("description");
+    const code = document.getElementById("code");
+    const price = document.getElementById("price");
+    const category = document.getElementById("category");
+    const thumbnails = document.getElementById("thumbnails");
     const product = {title:title.value , description:description.value , code:code.value , price:price.value , category:category.value , thumbnails:thumbnails.value};
     socket.emit("nuevoProducto" , product);
     title.value = "";
@@ -46,7 +46,7 @@ const agregarItemEliminarProducto  = (item) =>{
     const productId = document.getElementById("product_id");
     let option = document.createElement("option");
     option.value = item._id;
-    option.innerHTML = "Producto #" +  item.id + item.title;
+    option.innerHTML = "Producto #" + item.id + item.title;
     productId.appendChild(option);
 }
 

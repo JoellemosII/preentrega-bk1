@@ -25,7 +25,7 @@ class ManagerCart {
         }
 
         await cartModel.updateOne({_id:cid}, {products:cart.products});
-    }
+    } 
     
     async addProductsToCart(cid, products) {
         let cart = await cartModel.findOne({_id:cid}).lean();
@@ -67,6 +67,10 @@ class ManagerCart {
 
     async deleteProductFromCart(cid){
         await cartModel.updateOne({_id:cid} , {products:[]});
+    }
+
+    async emptyCart(cid){
+        await cartModel.updateOne({_id:cid}, {products:[]});
     }
 }
 

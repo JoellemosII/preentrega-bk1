@@ -26,6 +26,7 @@ app.use("/api/products" , productsRouter);
 app.use("/api/carts" , cartsRouter);
 app.use("/" , viewsRouter);
 
+
 mongoose.connect("mongodb+srv://joel94master:Johel_0725@mongoose.ejvbi.mongodb.net/?retryWrites=true&w=majority&appName=Mongoose"),(error) =>{
     if(error){
         console.log("No se pudo conectar a la base de datos ");

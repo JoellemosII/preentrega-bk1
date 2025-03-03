@@ -23,6 +23,10 @@ cartsRouter.post("/:cid/product/:pid", async (req, res) =>{
     const pid = req.params.pid;
     await managerC.addProductToCart(cid,pid);
     res.send({"estado": "OK", "mensaje": " Se agrego correctamente el producto al carrito"});
+    console.log(cid);
+    console.log(pid);
+    
+
 })
 
 cartsRouter.put("/:cid" ,async (req,res)=>{

@@ -13,6 +13,7 @@ productsRouter.get("/" ,async (req, res) =>{
     }
 })
 
+
 productsRouter.get("/:pid" ,async  (req, res) =>{
     let pid = req.params.pid;
     let product = await managerP.getProductById(pid);

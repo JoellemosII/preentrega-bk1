@@ -19,18 +19,12 @@ viewsRouter.get("/products/" , async (req , res) => {
 viewsRouter.get("/products/:pid" , async (req , res) => {
     const {pid} = req.params;
     let products = await managerP.getProductById(pid);  
-    res.render( "product", {products:products});
-
+    res.render("product", {products:products[0]});
+    
 })
 
 viewsRouter.get("/realtimeproducts" , (req , res) => { 
     res.render("realtimeproducts");
 })
-
-viewsRouter.get("/carts:cid" , async (req,res)=>{
-const cid = req.params.cid;
-const carts = await managerP.getCarts(cid);
-res.render("products" , {products});
-});
 
 export default viewsRouter  

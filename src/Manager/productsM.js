@@ -24,7 +24,7 @@ class ManagerProduct {
         }
     }
     async getProductById(id) {        
-        let product = await productModel.find({_id:id});
+        let product = await productModel.find({_id:id}).lean();
         
         return product ? product : {"error":"No se encontró el Producto!"};
     }
@@ -41,6 +41,5 @@ class ManagerProduct {
         await productModel.deleteOne({_id:id});
     }
 }
-
 
 export default ManagerProduct 
