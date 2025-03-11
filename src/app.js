@@ -7,7 +7,6 @@ import cartsRouter from "./routes/cartRouter.js";
 import viewsRouter from "./routes/viewRouter.js";
 import ManagerProduct from "./Manager/productsM.js";
 import mongoose from "mongoose";
-
 const app = express();
 const port = 4040;
 

@@ -29,13 +29,14 @@ cartsRouter.post("/:cid/product/:pid", async (req, res) =>{
 
 })
 
-cartsRouter.put("/:cid" ,async (req,res)=>{
+cartsRouter.put("/:cid" ,async (req,res)=>{ 
     const cid = req.params.cid;
-    const pid = req.params.pid; 
-    await managerC.addProductToCart(cid , pid);
+    const pid = req.params.pid;
+    const quantity = req.body.quantity;
+    await managerC.addProductToCart(cid , pid,quantity);
     res.send({"estado":"Ok" , "mensaje": "Se actualizo el carrito Correctamente"});
 })
-cartsRouter.put("/:cid/product/:pid" ,async (req,res)=>{
+cartsRouter.put("/:cid/product/:pid",async (req,res)=>{
     const cid = req.params.cid;
     const pid = req.params.pid;
     const quantity = req.body.quantity;
@@ -43,12 +44,12 @@ cartsRouter.put("/:cid/product/:pid" ,async (req,res)=>{
     res.send({"estado":"Ok" , "mensaje": "Se actualizo el carrito Correctamente"})
 })
 
-cartsRouter.delete("/:cid/product/:pid" ,async (req,res)=>{
-    const cid = req.params.cid;
-    const pid = req.params.pid;
-    await managerC.deleteProductFromCart(cid , pid);
-    res.send({"estado":"Ok" , "mensaje": "Se elimino el producto del carrito Correctamente"});
-})
+// cartsRouter.delete("/:cid/product/:pid" ,async (req,res)=>{
+//     const cid = req.params.cid; 
+//     const pid = req.params.pid;
+//     await managerC.deleteProductFromCart(cid , pid);
+//     res.send({"estado":"Ok" , "mensaje": "Se elimino el producto del carrito Correctamente"});
+// })
 cartsRouter.delete("/:cid" ,async (req,res)=>{
     const cid = req.params.cid;
     await managerC.deleteProductFromCart(cid);

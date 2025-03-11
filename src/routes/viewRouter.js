@@ -24,7 +24,13 @@ viewsRouter.get("/products/:pid" , async (req , res) => {
 })
 
 viewsRouter.get("/realtimeproducts" , (req , res) => { 
-    res.render("realtimeproducts");
-})
+    res.render("realtimeproducts")
+});
 
+
+viewsRouter.get("/cart" , async (req,res) =>{
+    const cart = "";
+    let carts = await managerC.
+res.render("cart" , {carts:carts[0]});
+})
 export default viewsRouter  
